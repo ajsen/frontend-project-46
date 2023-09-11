@@ -17,6 +17,12 @@
           "log"
         ]
       }
+    ],
+    "import/extensions": [
+      "error",
+      {
+        "js": "always"
+      }
     ]
   }
 }
