@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import * as path from 'node:path';
 import { existsSync, readFileSync } from 'node:fs';
-import sortAlphabetically from './utils.js';
 
 const getValue = (data, key) => data[key];
 
@@ -28,7 +27,7 @@ const getData = (filePath1, filePath2) => {
 const genDiff = (filePath1, filePath2) => {
   const [data1, data2] = getData(filePath1, filePath2);
   const keys = [...Object.keys(data1), ...Object.keys(data2)];
-  const sorted = keys.sort(sortAlphabetically);
+  const sorted = [...keys].sort((a, b) => a.localeCompare(b));
   const unique = _.sortedUniq(sorted);
   const result = unique.reduce((acc, key) => {
     if (Object.hasOwn(data1, key) && Object.hasOwn(data2, key)) {
