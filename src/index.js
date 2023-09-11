@@ -26,12 +26,8 @@ const getData = (filePath1, filePath2) => {
 
 const genDiff = (filePath1, filePath2) => {
   const [data1, data2] = getData(filePath1, filePath2);
-  const keys1 = Object.keys(data1);
-  const keys2 = Object.keys(data2);
-  const allKeys = [...keys1, ...keys2];
-  const sorted = allKeys.sort();
-  const unique = _.sortedUniq(sorted);
-  const result = unique.reduce((acc, key) => {
+  const uniqueKeys = _.sortedUniq([...Object.keys(data1), ...Object.keys(data2)]).sort();
+  const result = uniqueKeys.reduce((acc, key) => {
     if (Object.hasOwn(data1, key) && Object.hasOwn(data2, key)) {
       if (Object.is(getValue(data1, key), getValue(data2, key))) {
         acc.push([key, getValue(data1, key)]);
