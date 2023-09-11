@@ -1,0 +1,19 @@
+name: gendiff testing
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  testing:
+    runs-on: ubuntu-latest
+    steps:
+      - name: get repository
+        uses: actions/checkout@v3
+      - name: install dependencies
+        run: make install
+      - name: lint
+        run: make lint
+      - name: test
+        run: make test
