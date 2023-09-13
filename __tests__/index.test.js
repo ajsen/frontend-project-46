@@ -1,6 +1,6 @@
 import genDiff from '../src/index.js';
 
-test('genDiff', () => {
+test('Test json files', () => {
   const path1 = '__fixtures__/file_1.json';
   const path2 = '__fixtures__/file_2.json';
   const result = genDiff(path1, path2);
