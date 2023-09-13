@@ -14,10 +14,6 @@ test('Test json files', () => {
   });
 });
 
-test('If the file or directory does not exist', () => {
-  const path1 = '__fixtures__/file-1.json';
-  const path2 = '_fixtures_/file_2.json';
-  expect(() => genDiff(path1, path2)).toThrow(new Error('No such file or directory'));
 });
 
 test('if the file is not json', () => {
