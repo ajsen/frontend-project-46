@@ -14,6 +14,18 @@ test('Test json files', () => {
   });
 });
 
+test('Test yaml files', () => {
+  const path1 = '__fixtures__/file_1.yml';
+  const path2 = '__fixtures__/file_2.yml';
+  const result = genDiff(path1, path2);
+  expect(result).toEqual({
+    '- follow': false,
+    host: 'hexlet.io',
+    '- proxy': '123.234.53.22',
+    '- timeout': 50,
+    '+ timeout': 20,
+    '+ verbose': true,
+  });
 });
 
 test('if the file is not json', () => {
