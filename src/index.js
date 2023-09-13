@@ -1,8 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import _ from 'lodash';
 import path from 'node:path';
 import fs from 'node:fs';
-import yaml from 'js-yaml';
+import parse from './parsers.js';
 
 const formats = ['.json', '.yaml', '.yml'];
 
@@ -18,14 +17,6 @@ const getData = (filePath) => {
   }
 
   return [rawData, format];
-};
-
-const parse = (rawData) => {
-  const [data, format] = rawData;
-  if (format === '.yaml' || format === '.yml') {
-    return yaml.load(data);
-  }
-  return JSON.parse(data);
 };
 
 const genDiff = (filePath1, filePath2) => {
