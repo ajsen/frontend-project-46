@@ -1,37 +1,43 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import _ from 'lodash';
-import * as path from 'node:path';
-import { existsSync, readFileSync } from 'node:fs';
+import path from 'node:path';
+import fs from 'node:fs';
+import yaml from 'js-yaml';
+
+const formats = ['.json', '.yaml', '.yml'];
 
 const getValue = (data, key) => data[key];
 
-const getFileExtension = (fileName) => {
-  const [, extension] = fileName.split('.');
-  return extension;
+const getData = (filePath) => {
+  const fullPath = path.resolve(process.cwd(), filePath);
+  const rawData = fs.readFileSync(fullPath, 'utf-8');
+  const fileName = path.basename(fullPath);
+  const format = path.extname(fileName);
+  if (!formats.includes(format)) {
+    throw new Error('Unsupported format');
+  }
+
+  return [rawData, format];
 };
 
-const getData = (filePath1, filePath2) => {
-  if (!(existsSync(filePath1) && existsSync(filePath2))) {
-    throw new Error('No such file or directory');
+const parse = (rawData) => {
+  const [data, format] = rawData;
+  if (format === '.yaml' || format === '.yml') {
+    return yaml.load(data);
   }
-  const extension1 = getFileExtension(path.basename(filePath1));
-  const extension2 = getFileExtension(path.basename(filePath2));
-  if (extension1 !== 'json' || extension2 !== 'json') {
-    throw new Error('The extension must be json');
-  }
-  const data1 = readFileSync(path.resolve(filePath1), 'utf-8', (err, data) => err || data);
-  const data2 = readFileSync(path.resolve(filePath2), 'utf-8', (err, data) => err || data);
-
-  return [JSON.parse(data1), JSON.parse(data2)];
+  return JSON.parse(data);
 };
 
 const genDiff = (filePath1, filePath2) => {
-  const [data1, data2] = getData(filePath1, filePath2);
-  const keys = [...Object.keys(data1), ...Object.keys(data2)];
-  const sorted = [...keys].sort((a, b) => a.localeCompare(b));
-  const unique = _.sortedUniq(sorted);
-  const result = unique.reduce((acc, key) => {
+  const data1 = parse(getData(filePath1));
+  const data2 = parse(getData(filePath2));
+  const keys1 = Object.keys(data1);
+  const keys2 = Object.keys(data2);
+  const unique = _.unionWith(keys1, keys2, _.isEqual);
+  const sorted = unique.sort((key1, key2) => key1.localeCompare(key2));
+  const result = sorted.reduce((acc, key) => {
     if (Object.hasOwn(data1, key) && Object.hasOwn(data2, key)) {
-      if (Object.is(getValue(data1, key), getValue(data2, key))) {
+      if (_.isEqual(getValue(data1, key), getValue(data2, key))) {
         acc.push([key, getValue(data1, key)]);
         return acc;
       }
