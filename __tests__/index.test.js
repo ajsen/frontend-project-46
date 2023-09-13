@@ -28,8 +28,8 @@ test('Test yaml files', () => {
   });
 });
 
-test('if the file is not json', () => {
+test('Test unsupported format', () => {
   const path1 = '__fixtures__/file_1.json';
-  const path2 = '__fixtures__/file.txt';
-  expect(() => genDiff(path1, path2)).toThrow(new Error('The extension must be json'));
+  const path2 = '__fixtures__/unsupported_format.txt';
+  expect(() => genDiff(path1, path2)).toThrow(new Error('Unsupported format'));
 });
