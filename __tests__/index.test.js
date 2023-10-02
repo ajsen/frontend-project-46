@@ -39,5 +39,5 @@ describe('Plain output check', () => {
 test('Test unsupported data format', () => {
   const path1 = '__fixtures__/file_1.json';
   const path2 = '__fixtures__/unsupported_format.txt';
-  expect(() => genDiff(path1, path2)).toThrow(new Error('Unsupported text format'));
+  expect(() => genDiff(path1, path2)).toThrow(new Error('Unsupported data format'));
 });
