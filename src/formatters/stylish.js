@@ -25,7 +25,7 @@ const getValue = (node, depth) => {
   return (_.isString(node)) ? node : node.toString();
 };
 
-const stylish = (data) => {
+export default (data) => {
   const iter = (tree, depth) => {
     const result = tree.flatMap(({ key, value, flag }) => {
       if (flag === 'nested') {
@@ -52,5 +52,3 @@ const stylish = (data) => {
 
   return iter(data, 1);
 };
-
-export default stylish;
