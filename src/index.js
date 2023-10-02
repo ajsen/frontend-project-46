@@ -2,15 +2,14 @@ import _ from 'lodash';
 import path from 'node:path';
 import fs from 'node:fs';
 import parse from './parsers.js';
-import stylish from './formatter.js';
+import format from './formatters/index.js';
 
 const getData = (filePath) => {
   const absolutePath = path.resolve(process.cwd(), filePath);
-  const text = fs.readFileSync(absolutePath, 'utf-8');
+  const data = fs.readFileSync(absolutePath, 'utf-8');
   const name = path.basename(absolutePath);
-  const textFormat = path.extname(name);
-  const converted = parse(text, textFormat);
-  return converted;
+  const dataFormat = path.extname(name);
+  return parse(data, dataFormat);
 };
 
 const getValue = (data, key) => data[key];
@@ -47,15 +46,10 @@ const makeDiff = (originalData, newData) => {
   return result;
 };
 
-const genDiff = (filePath1, filePath2, formatName = 'stylish') => {
-  if (formatName !== 'stylish') {
-    throw new Error('Unsupported output format');
-  }
+export default (filePath1, filePath2, formatName = 'stylish') => {
   const originalData = getData(filePath1);
   const newData = getData(filePath2);
   const data = makeDiff(originalData, newData);
 
-  return stylish(data);
+  return format(data, formatName);
 };
-
-export default genDiff;
