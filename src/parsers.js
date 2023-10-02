@@ -1,14 +1,14 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import yaml from 'js-yaml';
 
-const textFormats = ['.json', '.yaml', '.yml'];
-
-export default (text, textFormat) => {
-  if (!textFormats.includes(textFormat)) {
-    throw new Error('Unsupported text format');
+export default (data, dataFormat) => {
+  switch (dataFormat) {
+    case '.json':
+      return JSON.parse(data);
+    case '.yaml':
+      return yaml.load(data);
+    case '.yml':
+      return yaml.load(data);
+    default:
+      throw new Error('Unsupported data format');
   }
-  if (textFormat === '.yaml' || textFormat === '.yml') {
-    return yaml.load(text);
-  }
-  return JSON.parse(text);
 };
