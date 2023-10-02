@@ -8,7 +8,7 @@ const pathToYAML1 = '__fixtures__/file_1.yml';
 const pathToYAML2 = '__fixtures__/file_2.yml';
 
 describe('Stylish output check', () => {
-  const outputPath = '__fixtures__/stylish_output';
+  const outputPath = '__fixtures__/stylish_output.txt';
   const absolutePath = path.resolve(process.cwd(), outputPath);
   const stylishOutput = fs.readFileSync(absolutePath, 'utf-8');
   test('JSON files check', () => {
