@@ -36,6 +36,20 @@ describe('Plain output check', () => {
   });
 });
 
+describe('JSON output check', () => {
+  const outputPath = '__fixtures__/json_output.txt';
+  const absolutePath = path.resolve(process.cwd(), outputPath);
+  const jsonOutput = fs.readFileSync(absolutePath, 'utf-8');
+  test('JSON files check', () => {
+    const result = genDiff(pathToJSON1, pathToJSON2, 'json');
+    expect(result).toEqual(jsonOutput);
+  });
+  test('YAML files check', () => {
+    const result = genDiff(pathToYAML1, pathToYAML2, 'json');
+    expect(result).toEqual(jsonOutput);
+  });
+});
+
 test('Test unsupported data format', () => {
   const path1 = '__fixtures__/file_1.json';
   const path2 = '__fixtures__/unsupported_format.txt';
