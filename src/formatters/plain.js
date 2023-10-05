@@ -17,7 +17,9 @@ const getValue = (value) => {
 
 export default (data) => {
   const iter = (tree, acc) => {
-    const result = tree.flatMap(({ key, value, flag }) => {
+    const result = tree.flatMap(({
+      key, value, originalValue, newValue, flag,
+    }) => {
       if (flag === 'nested') {
         return iter(value, acc.concat(key));
       }
@@ -28,7 +30,6 @@ export default (data) => {
         return [`Property '${buildPath(acc, key)}' was added with value: ${getValue(value)}`];
       }
       if (flag === 'changed') {
-        const [originalValue, newValue] = value;
         return [`Property '${buildPath(acc, key)}' was updated. From ${getValue(originalValue)} to ${getValue(newValue)}`];
       }
       return [];
