@@ -21,8 +21,14 @@ describe.each(formatNames)('Check %s output format', (formatName) => {
   });
 });
 
-test('Check unsupported data format', () => {
-  const filePath = getFixturePath('unsupported_format.txt');
-  const expected = new Error('Unsupported data format');
-  expect(() => genDiff(filePath, filePath)).toThrow(expected);
+describe('If errors occur', () => {
+  test('Check unsupported data format', () => {
+    const filePath = getFixturePath('unsupported_format.txt');
+    const expected = new Error('Unsupported data format');
+    expect(() => genDiff(filePath, filePath)).toThrow(expected);
+  });
+  test('Check invalid data', () => {
+    const filePath = getFixturePath('invalid_data.json');
+    expect(() => genDiff(filePath, filePath)).toThrow(SyntaxError);
+  });
 });
