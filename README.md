@@ -33,3 +33,6 @@ sudo npm link
 
 ### Plain
 [![asciicast](https://asciinema.org/a/612243.svg)](https://asciinema.org/a/612243)
+
+### JSON
+[![asciicast](https://asciinema.org/a/612244.svg)](https://asciinema.org/a/612244)
