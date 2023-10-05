@@ -12,6 +12,10 @@ gendiff is a Command-Line Interface (CLI) application that generates the differe
 * json
 
 The application works with JSON (json) and YAML (yaml, yml) data formats.
+
+## Requirements
+
+Node.js 12.0.0 and above
 ## Preview
 
 [![asciicast](https://asciinema.org/a/607587.svg)](https://asciinema.org/a/607587)
