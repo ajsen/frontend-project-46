@@ -28,11 +28,22 @@ sudo npm link
 
 ## Preview
 
-### Stylish
-[![asciicast](https://asciinema.org/a/612240.svg)](https://asciinema.org/a/612240)
+### Flat JSON
 
-### Plain
-[![asciicast](https://asciinema.org/a/612243.svg)](https://asciinema.org/a/612243)
+[![asciicast](https://asciinema.org/a/607587.svg)](https://asciinema.org/a/607587)
 
-### JSON
-[![asciicast](https://asciinema.org/a/612244.svg)](https://asciinema.org/a/612244)
+### Flat YAML
+
+[![asciicast](https://asciinema.org/a/612256.svg)](https://asciinema.org/a/612256)
+
+### Nested stylish format output
+
+[![asciicast](https://asciinema.org/a/612257.svg)](https://asciinema.org/a/612257)
+
+### Nested plain format output
+
+[![asciicast](https://asciinema.org/a/612258.svg)](https://asciinema.org/a/612258)
+
+### Nested JSON format output
+
+[![asciicast](https://asciinema.org/a/612259.svg)](https://asciinema.org/a/612259)
