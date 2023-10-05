@@ -30,3 +30,6 @@ sudo npm link
 
 ### Stylish
 [![asciicast](https://asciinema.org/a/612240.svg)](https://asciinema.org/a/612240)
+
+### Plain
+[![asciicast](https://asciinema.org/a/612243.svg)](https://asciinema.org/a/612243)
