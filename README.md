@@ -28,4 +28,3 @@ sudo npm link
 
 ## Preview
 
-[![asciicast](https://asciinema.org/a/607587.svg)](https://asciinema.org/a/607587)
