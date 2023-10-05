@@ -20,8 +20,8 @@ export default (data) => {
     const result = tree.flatMap(({
       key, value, originalValue, newValue, flag,
     }) => {
-      if (flag === 'nested') {
-        return iter(value, acc.concat(key));
+      if (!flag) {
+        return [];
       }
       if (flag === 'deleted') {
         return [`Property '${buildPath(acc, key)}' was removed`];
@@ -32,7 +32,8 @@ export default (data) => {
       if (flag === 'changed') {
         return [`Property '${buildPath(acc, key)}' was updated. From ${getValue(originalValue)} to ${getValue(newValue)}`];
       }
-      return [];
+
+      return iter(value, acc.concat(key));
     });
 
     return result.join(separator);

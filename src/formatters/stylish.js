@@ -26,8 +26,8 @@ export default (data) => {
     const result = tree.flatMap(({
       key, value, originalValue, newValue, flag,
     }) => {
-      if (flag === 'nested') {
-        return [`${setIndentation(depth + 1)}${key}: ${iter(value, depth + 1)}`];
+      if (!flag) {
+        return [`${setIndentation(depth + 1)}${key}: ${stringify(value, depth)}`];
       }
       if (flag === 'deleted') {
         return [`${setIndentation(depth + 1, flag)}- ${key}: ${stringify(value, depth + 1)}`];
@@ -41,7 +41,8 @@ export default (data) => {
           `${setIndentation(depth + 1, flag)}+ ${key}: ${stringify(newValue, depth + 1)}`,
         ];
       }
-      return [`${setIndentation(depth + 1)}${key}: ${stringify(value, depth)}`];
+
+      return [`${setIndentation(depth + 1)}${key}: ${iter(value, depth + 1)}`];
     });
 
     return `{\n${result.join(separator)}\n${setIndentation(depth)}}`;
