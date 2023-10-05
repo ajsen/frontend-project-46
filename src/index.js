@@ -8,8 +8,8 @@ const getData = (filePath) => {
   const absolutePath = path.resolve(process.cwd(), filePath);
   const data = fs.readFileSync(absolutePath, 'utf-8');
   const name = path.basename(absolutePath);
-  const dataFormat = path.extname(name);
-  return parse(data, dataFormat);
+  const extension = path.extname(name);
+  return parse(data, extension);
 };
 
 const getValue = (data, key) => data[key];
