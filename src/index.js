@@ -34,11 +34,11 @@ const makeDiff = (originalData, newData) => {
       node.value = newValue;
       node.flag = 'added';
     } else if (!_.isEqual(originalValue, newValue)) {
-      node.value = [originalValue, newValue];
+      node.originalValue = originalValue;
+      node.newValue = newValue;
       node.flag = 'changed';
     } else {
       node.value = originalValue;
-      node.flag = 'unchanged';
     }
     return node;
   });
