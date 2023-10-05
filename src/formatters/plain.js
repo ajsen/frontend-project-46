@@ -8,11 +8,11 @@ const getValue = (value) => {
   if (_.isNull(value)) {
     return 'null';
   }
-  if (_.isObject(value)) {
+  if (_.isObjectLike(value)) {
     return '[complex value]';
   }
 
-  return _.isString(value) ? `'${value}'` : value.toString();
+  return (_.isString(value)) ? `'${value}'` : value.toString();
 };
 
 export default (data) => {
