@@ -28,3 +28,5 @@ sudo npm link
 
 ## Preview
 
+### Stylish
+[![asciicast](https://asciinema.org/a/612240.svg)](https://asciinema.org/a/612240)
