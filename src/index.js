@@ -18,29 +18,40 @@ const makeDiff = (originalData, newData) => {
   const originalKeys = Object.keys(originalData);
   const newKeys = Object.keys(newData);
   const uniqueKeys = _.union(originalKeys, newKeys);
-  const sorted = uniqueKeys.sort((a, b) => a.localeCompare(b));
+  const sorted = _.sortBy(uniqueKeys);
   const result = sorted.map((key) => {
-    const node = {};
     const originalValue = getValue(originalData, key);
     const newValue = getValue(newData, key);
-    node.key = key;
     if (_.isObject(originalValue) && _.isObject(newValue)) {
-      node.value = makeDiff(originalValue, newValue);
-      node.flag = 'nested';
-    } else if (!Object.hasOwn(newData, key)) {
-      node.value = originalValue;
-      node.flag = 'deleted';
-    } else if (!Object.hasOwn(originalData, key)) {
-      node.value = newValue;
-      node.flag = 'added';
-    } else if (!_.isEqual(originalValue, newValue)) {
-      node.originalValue = originalValue;
-      node.newValue = newValue;
-      node.flag = 'changed';
-    } else {
-      node.value = originalValue;
+      return {
+        key,
+        value: makeDiff(originalValue, newValue),
+        flag: 'nested',
+      };
     }
-    return node;
+    if (!Object.hasOwn(newData, key)) {
+      return {
+        key,
+        value: originalValue,
+        flag: 'deleted',
+      };
+    }
+    if (!Object.hasOwn(originalData, key)) {
+      return {
+        key,
+        value: newValue,
+        flag: 'added',
+      };
+    }
+    if (!_.isEqual(originalValue, newValue)) {
+      return {
+        key, originalValue, newValue, flag: 'changed',
+      };
+    }
+    return {
+      key,
+      value: originalValue,
+    };
   });
 
   return result;
