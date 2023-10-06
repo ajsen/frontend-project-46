@@ -15,7 +15,7 @@ describe.each(formatNames)('Check %s output format', (formatName) => {
   test.each(dataFormats)('Check %s data format', (dataFormat) => {
     const filePath1 = getFixturePath(`file-1.${dataFormat}`);
     const filePath2 = getFixturePath(`file-2.${dataFormat}`);
-    const expected = readFixture(`${formatName}.txt`);
+    const expected = readFixture(`${formatName}-result.txt`);
     const result = genDiff(filePath1, filePath2, formatName);
     expect(result).toEqual(expected);
   });
@@ -23,12 +23,12 @@ describe.each(formatNames)('Check %s output format', (formatName) => {
 
 describe('If errors occur', () => {
   test('Check unsupported data format', () => {
-    const filePath = getFixturePath('unsupported_format.txt');
+    const filePath = getFixturePath('unsupported-format.txt');
     const expected = new Error('Unsupported data format');
     expect(() => genDiff(filePath, filePath)).toThrow(expected);
   });
   test('Check invalid data', () => {
-    const filePath = getFixturePath('invalid_data.json');
+    const filePath = getFixturePath('invalid-data.json');
     expect(() => genDiff(filePath, filePath)).toThrow(SyntaxError);
   });
 });
