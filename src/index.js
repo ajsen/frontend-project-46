@@ -15,11 +15,8 @@ const getData = (filePath) => {
 const getValue = (data, key) => data[key];
 
 const makeDiff = (originalData, newData) => {
-  const originalKeys = Object.keys(originalData);
-  const newKeys = Object.keys(newData);
-  const uniqueKeys = _.union(originalKeys, newKeys);
-  const sorted = _.sortBy(uniqueKeys);
-  const result = sorted.map((key) => {
+  const keys = _.sortBy(_.union(Object.keys(originalData), Object.keys(newData)));
+  const result = keys.map((key) => {
     const originalValue = getValue(originalData, key);
     const newValue = getValue(newData, key);
     if (_.isObject(originalValue) && _.isObject(newValue)) {
