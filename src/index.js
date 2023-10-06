@@ -45,7 +45,10 @@ const makeDiff = (originalData, newData) => {
     }
     if (!_.isEqual(originalValue, newValue)) {
       return {
-        key, originalValue, newValue, flag: 'changed',
+        key,
+        originalValue,
+        newValue,
+        flag: 'changed',
       };
     }
     return {
