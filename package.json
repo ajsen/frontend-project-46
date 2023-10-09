@@ -1,7 +1,7 @@
 {
   "name": "@hexlet/code",
   "version": "0.0.1",
-  "description": "[![Actions Status](https://github.com/ajsen/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/ajsen/frontend-project-46/actions)",
+  "description": "CLI application that generates the difference between two files",
   "main": "src/index.js",
   "type": "module",
   "bin": {
