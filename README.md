@@ -2,6 +2,7 @@
 [![Actions Status](https://github.com/ajsen/frontend-project-46/workflows/hexlet-check/badge.svg)](https://github.com/ajsen/frontend-project-46/actions)
 [![gendiff testing](https://github.com/ajsen/frontend-project-46/actions/workflows/tests.yml/badge.svg)](https://github.com/ajsen/frontend-project-46/actions/workflows/tests.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/573fa9a508b53032dfc9/maintainability)](https://codeclimate.com/github/ajsen/frontend-project-46/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/573fa9a508b53032dfc9/test_coverage)](https://codeclimate.com/github/ajsen/frontend-project-46/test_coverage)
 
 ## Description
 
