@@ -1,12 +1,12 @@
 import yaml from 'js-yaml';
 
-export default (data, extension) => {
-  switch (extension) {
-    case '.json':
+export default (data, dataFormat) => {
+  switch (dataFormat) {
+    case 'json':
       return JSON.parse(data);
-    case '.yaml':
+    case 'yaml':
       return yaml.load(data);
-    case '.yml':
+    case 'yml':
       return yaml.load(data);
     default:
       throw new Error('Unsupported data format');
