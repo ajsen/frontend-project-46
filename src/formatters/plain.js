@@ -15,10 +15,10 @@ const getValue = (value) => {
   return (_.isString(value)) ? `'${value}'` : value.toString();
 };
 
-export default (data) => {
+export default (diff) => {
   const iter = (tree, acc) => {
     const result = tree.flatMap(({
-      key, value, originalValue, newValue, flag,
+      key, value, value1, value2, flag,
     }) => {
       if (!flag) {
         return [];
@@ -30,7 +30,7 @@ export default (data) => {
         return [`Property '${buildPath(acc, key)}' was added with value: ${getValue(value)}`];
       }
       if (flag === 'changed') {
-        return [`Property '${buildPath(acc, key)}' was updated. From ${getValue(originalValue)} to ${getValue(newValue)}`];
+        return [`Property '${buildPath(acc, key)}' was updated. From ${getValue(value1)} to ${getValue(value2)}`];
       }
 
       return iter(value, acc.concat(key));
@@ -39,5 +39,5 @@ export default (data) => {
     return result.join(separator);
   };
 
-  return iter(data, []);
+  return iter(diff, []);
 };

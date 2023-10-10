@@ -21,10 +21,10 @@ const stringify = (data, depth) => {
   return `{\n${result.join(separator)}\n${setIndentation(depth)}}`;
 };
 
-export default (data) => {
+export default (diff) => {
   const iter = (tree, depth) => {
     const result = tree.flatMap(({
-      key, value, originalValue, newValue, flag,
+      key, value, value1, value2, flag,
     }) => {
       if (!flag) {
         return [`${setIndentation(depth + 1)}${key}: ${stringify(value, depth)}`];
@@ -37,8 +37,8 @@ export default (data) => {
       }
       if (flag === 'changed') {
         return [
-          `${setIndentation(depth + 1, flag)}- ${key}: ${stringify(originalValue, depth + 1)}`,
-          `${setIndentation(depth + 1, flag)}+ ${key}: ${stringify(newValue, depth + 1)}`,
+          `${setIndentation(depth + 1, flag)}- ${key}: ${stringify(value1, depth + 1)}`,
+          `${setIndentation(depth + 1, flag)}+ ${key}: ${stringify(value2, depth + 1)}`,
         ];
       }
 
@@ -48,5 +48,5 @@ export default (data) => {
     return `{\n${result.join(separator)}\n${setIndentation(depth)}}`;
   };
 
-  return iter(data, 0);
+  return iter(diff, 0);
 };
