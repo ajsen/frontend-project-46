@@ -2,65 +2,28 @@ import _ from 'lodash';
 import path from 'node:path';
 import fs from 'node:fs';
 import parse from './parsers.js';
+import makeDiff from './makeDiff.js';
 import format from './formatters/index.js';
 
-const getData = (filePath) => {
-  const absolutePath = path.resolve(process.cwd(), filePath);
-  const data = fs.readFileSync(absolutePath, 'utf-8');
-  const name = path.basename(absolutePath);
-  const extension = path.extname(name);
-  return parse(data, extension);
+const getAbsolutePath = (filePath) => path.resolve(process.cwd(), filePath);
+
+const excludeFormat = (filePath) => {
+  const extension = path.extname(getAbsolutePath(filePath));
+
+  return _.trimStart(extension, '.');
 };
 
-const getValue = (data, key) => data[key];
+const getData = (filePath) => {
+  const data = fs.readFileSync(getAbsolutePath(filePath), 'utf-8');
+  const dataFormat = excludeFormat(filePath);
 
-const makeDiff = (originalData, newData) => {
-  const keys = _.sortBy(_.union(Object.keys(originalData), Object.keys(newData)));
-  const result = keys.map((key) => {
-    const originalValue = getValue(originalData, key);
-    const newValue = getValue(newData, key);
-    if (_.isObject(originalValue) && _.isObject(newValue)) {
-      return {
-        key,
-        value: makeDiff(originalValue, newValue),
-        flag: 'nested',
-      };
-    }
-    if (!Object.hasOwn(newData, key)) {
-      return {
-        key,
-        value: originalValue,
-        flag: 'deleted',
-      };
-    }
-    if (!Object.hasOwn(originalData, key)) {
-      return {
-        key,
-        value: newValue,
-        flag: 'added',
-      };
-    }
-    if (!_.isEqual(originalValue, newValue)) {
-      return {
-        key,
-        originalValue,
-        newValue,
-        flag: 'changed',
-      };
-    }
-    return {
-      key,
-      value: originalValue,
-    };
-  });
-
-  return result;
+  return parse(data, dataFormat);
 };
 
 export default (filePath1, filePath2, formatName = 'stylish') => {
-  const originalData = getData(filePath1);
-  const newData = getData(filePath2);
-  const data = makeDiff(originalData, newData);
+  const data1 = getData(filePath1);
+  const data2 = getData(filePath2);
+  const diff = makeDiff(data1, data2);
 
-  return format(data, formatName);
+  return format(diff, formatName);
 };
