@@ -2,6 +2,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 import { fileURLToPath } from 'url';
 import genDiff from '../src/index.js';
+import format from '../src/formatters/index.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -29,6 +30,11 @@ test.each(dataFormats)('Check %s format', (dataFormat) => {
 });
 
 describe('If errors occur', () => {
+  test('Check unsupported formatter', () => {
+    const diff = [{ key: 'verbose', value: true, flag: 'added' }];
+    const expected = new Error('No such formatter');
+    expect(() => format(diff, 'unsupported format name')).toThrow(expected);
+  });
   test('Check unsupported data format', () => {
     const filePath = getFixturePath('unsupported-format.txt');
     const expected = new Error('Unsupported data format');
