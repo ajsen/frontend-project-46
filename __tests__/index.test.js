@@ -11,22 +11,18 @@ const readFixture = (filename) => fs.readFileSync(getFixturePath(filename), 'utf
 
 const dataFormats = ['json', 'yaml', 'yml'];
 
-const expected1 = readFixture('stylish-result.txt');
-const expected2 = readFixture('plain-result.txt');
-const expected3 = readFixture('json-result.txt');
+const expectedStylish = readFixture('stylish-result.txt');
+const expectedPlain = readFixture('plain-result.txt');
+const expectedJson = readFixture('json-result.txt');
 
 test.each(dataFormats)('Check %s format', (dataFormat) => {
   const filePath1 = getFixturePath(`file-1.${dataFormat}`);
   const filePath2 = getFixturePath(`file-2.${dataFormat}`);
 
-  const result1 = genDiff(filePath1, filePath2);
-  expect(result1).toEqual(expected1);
-  const result2 = genDiff(filePath1, filePath2, 'stylish');
-  expect(result2).toEqual(expected1);
-  const result3 = genDiff(filePath1, filePath2, 'plain');
-  expect(result3).toEqual(expected2);
-  const result4 = genDiff(filePath1, filePath2, 'json');
-  expect(result4).toEqual(expected3);
+  expect(genDiff(filePath1, filePath2)).toEqual(expectedStylish);
+  expect(genDiff(filePath1, filePath2, 'stylish')).toEqual(expectedStylish);
+  expect(genDiff(filePath1, filePath2, 'plain')).toEqual(expectedPlain);
+  expect(genDiff(filePath1, filePath2, 'json')).toEqual(expectedJson);
 });
 
 describe('If errors occur', () => {
