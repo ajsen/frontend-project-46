@@ -4,8 +4,8 @@ const spaceCount = 4;
 const spaceChar = ' ';
 const separator = '\n';
 
-const setIndentation = (depth, flag) => {
-  const offsetCount = (flag) ? 2 : 0;
+const setIndentation = (depth, type) => {
+  const offsetCount = (type) ? 2 : 0;
   return spaceChar.repeat(depth * spaceCount - offsetCount);
 };
 
@@ -24,25 +24,25 @@ const stringify = (data, depth) => {
 export default (diff) => {
   const iter = (tree, depth) => {
     const result = tree.flatMap(({
-      key, value, value1, value2, flag,
+      key, children, value, value1, value2, type,
     }) => {
-      if (!flag) {
-        return [`${setIndentation(depth + 1)}${key}: ${stringify(value, depth)}`];
+      if (type === 'deleted') {
+        return [`${setIndentation(depth + 1, type)}- ${key}: ${stringify(value, depth + 1)}`];
       }
-      if (flag === 'deleted') {
-        return [`${setIndentation(depth + 1, flag)}- ${key}: ${stringify(value, depth + 1)}`];
+      if (type === 'added') {
+        return [`${setIndentation(depth + 1, type)}+ ${key}: ${stringify(value, depth + 1)}`];
       }
-      if (flag === 'added') {
-        return [`${setIndentation(depth + 1, flag)}+ ${key}: ${stringify(value, depth + 1)}`];
-      }
-      if (flag === 'changed') {
+      if (type === 'changed') {
         return [
-          `${setIndentation(depth + 1, flag)}- ${key}: ${stringify(value1, depth + 1)}`,
-          `${setIndentation(depth + 1, flag)}+ ${key}: ${stringify(value2, depth + 1)}`,
+          `${setIndentation(depth + 1, type)}- ${key}: ${stringify(value1, depth + 1)}`,
+          `${setIndentation(depth + 1, type)}+ ${key}: ${stringify(value2, depth + 1)}`,
         ];
       }
+      if (type === 'unchanged') {
+        return [`${setIndentation(depth + 1)}${key}: ${stringify(value, depth)}`];
+      }
 
-      return [`${setIndentation(depth + 1)}${key}: ${iter(value, depth + 1)}`];
+      return [`${setIndentation(depth + 1)}${key}: ${iter(children, depth + 1)}`];
     });
 
     return `{\n${result.join(separator)}\n${setIndentation(depth)}}`;
