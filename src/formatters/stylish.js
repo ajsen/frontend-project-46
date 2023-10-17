@@ -21,24 +21,23 @@ const stringify = (data, depth) => {
 
 export default (diff) => {
   const iter = (tree, depth) => {
-    const result = tree.flatMap((node) => {
+    const result = tree.map((node) => {
       if (node.type === 'deleted') {
-        return [`${setIndentation(depth + 1, spaceCount, offsetCount)}- ${node.key}: ${stringify(node.value, depth + 1)}`];
+        return `${setIndentation(depth + 1, spaceCount, offsetCount)}- ${node.key}: ${stringify(node.value, depth + 1)}`;
       }
       if (node.type === 'added') {
-        return [`${setIndentation(depth + 1, spaceCount, offsetCount)}+ ${node.key}: ${stringify(node.value, depth + 1)}`];
+        return `${setIndentation(depth + 1, spaceCount, offsetCount)}+ ${node.key}: ${stringify(node.value, depth + 1)}`;
       }
       if (node.type === 'changed') {
-        return [
-          `${setIndentation(depth + 1, spaceCount, offsetCount)}- ${node.key}: ${stringify(node.value1, depth + 1)}`,
-          `${setIndentation(depth + 1, spaceCount, offsetCount)}+ ${node.key}: ${stringify(node.value2, depth + 1)}`,
-        ];
+        const line1 = `${setIndentation(depth + 1, spaceCount, offsetCount)}- ${node.key}: ${stringify(node.value1, depth + 1)}`;
+        const line2 = `${setIndentation(depth + 1, spaceCount, offsetCount)}+ ${node.key}: ${stringify(node.value2, depth + 1)}`;
+        return `${line1}\n${line2}`;
       }
       if (node.type === 'unchanged') {
-        return [`${setIndentation(depth + 1, spaceCount)}${node.key}: ${stringify(node.value, depth)}`];
+        return `${setIndentation(depth + 1, spaceCount)}${node.key}: ${stringify(node.value, depth)}`;
       }
 
-      return [`${setIndentation(depth + 1, spaceCount)}${node.key}: ${iter(node.children, depth + 1)}`];
+      return `${setIndentation(depth + 1, spaceCount)}${node.key}: ${iter(node.children, depth + 1)}`;
     });
 
     return `{\n${result.join(separator)}\n${setIndentation(depth, spaceCount)}}`;
