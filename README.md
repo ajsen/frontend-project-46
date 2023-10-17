@@ -13,6 +13,7 @@ gendiff is a Command-Line Interface (CLI) application that generates the differe
 * json
 
 The application works with JSON (json) and YAML (yaml, yml) data formats.
+gendiff can be used as a JavaScript library.
 
 ## Requirements
 
