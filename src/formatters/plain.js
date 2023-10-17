@@ -17,23 +17,21 @@ const getValue = (value) => {
 
 export default (diff) => {
   const iter = (tree, acc) => {
-    const result = tree.flatMap(({
-      key, children, value, value1, value2, type,
-    }) => {
-      if (type === 'deleted') {
-        return [`Property '${buildPath(acc, key)}' was removed`];
+    const result = tree.flatMap((node) => {
+      if (node.type === 'deleted') {
+        return [`Property '${buildPath(acc, node.key)}' was removed`];
       }
-      if (type === 'added') {
-        return [`Property '${buildPath(acc, key)}' was added with value: ${getValue(value)}`];
+      if (node.type === 'added') {
+        return [`Property '${buildPath(acc, node.key)}' was added with value: ${getValue(node.value)}`];
       }
-      if (type === 'changed') {
-        return [`Property '${buildPath(acc, key)}' was updated. From ${getValue(value1)} to ${getValue(value2)}`];
+      if (node.type === 'changed') {
+        return [`Property '${buildPath(acc, node.key)}' was updated. From ${getValue(node.value1)} to ${getValue(node.value2)}`];
       }
-      if (type === 'unchanged') {
+      if (node.type === 'unchanged') {
         return [];
       }
 
-      return iter(children, acc.concat(key));
+      return iter(node.children, acc.concat(node.key));
     });
 
     return result.join(separator);
