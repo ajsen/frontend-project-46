@@ -9,7 +9,7 @@ const setIndentation = (depth, space, offset = 0) => spaceChar.repeat(depth * sp
 
 const stringify = (data, depth) => {
   if (!_.isObject(data)) {
-    return data;
+    return String(data);
   }
   const entries = Object.entries(data);
   const result = entries.map(([key, value]) => ((_.isObject(value))
