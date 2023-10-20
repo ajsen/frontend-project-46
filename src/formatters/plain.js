@@ -2,7 +2,7 @@ import _ from 'lodash';
 
 const separator = '\n';
 
-const buildPath = (path, key) => path.concat(key).join('.');
+const buildPath = (path, key) => (path.length > 0 ? `${path}.${key}` : String(key));
 
 const stringify = (value) => {
   if (_.isObjectLike(value)) {
@@ -27,11 +27,11 @@ export default (diff) => {
           return `Property '${buildPath(path, node.key)}' was updated. From ${stringify(node.value1)} to ${stringify(node.value2)}`;
         }
 
-        return iter(node.children, path.concat(node.key));
+        return iter(node.children, buildPath(path, node.key));
       });
 
     return result.join(separator);
   };
 
-  return iter(diff, []);
+  return iter(diff, '');
 };
