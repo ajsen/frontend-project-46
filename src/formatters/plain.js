@@ -17,17 +17,18 @@ export default (diff) => {
     const result = tree
       .filter((node) => node.type !== 'unchanged')
       .map((node) => {
+        const currentPath = buildPath(path, node.key);
         if (node.type === 'deleted') {
-          return `Property '${buildPath(path, node.key)}' was removed`;
+          return `Property '${currentPath}' was removed`;
         }
         if (node.type === 'added') {
-          return `Property '${buildPath(path, node.key)}' was added with value: ${stringify(node.value)}`;
+          return `Property '${currentPath}' was added with value: ${stringify(node.value)}`;
         }
         if (node.type === 'changed') {
-          return `Property '${buildPath(path, node.key)}' was updated. From ${stringify(node.value1)} to ${stringify(node.value2)}`;
+          return `Property '${currentPath}' was updated. From ${stringify(node.value1)} to ${stringify(node.value2)}`;
         }
 
-        return iter(node.children, buildPath(path, node.key));
+        return iter(node.children, currentPath);
       });
 
     return result.join(separator);
