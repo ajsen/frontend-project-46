@@ -3,6 +3,8 @@ import fs from 'node:fs';
 import { fileURLToPath } from 'url';
 import genDiff from '../src/index.js';
 import format from '../src/formatters/index.js';
+import stylish from '../src/formatters/stylish.js';
+import plain from '../src/formatters/plain.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -27,17 +29,23 @@ test.each(dataFormats)('Check %s format', (dataFormat) => {
 
 describe('If errors occur', () => {
   test('Check unsupported formatter', () => {
-    const diff = [{ key: 'verbose', value: true, flag: 'added' }];
-    const expected = new Error('No such formatter');
-    expect(() => format(diff, 'unsupported format name')).toThrow(expected);
+    const diff = [{ key: 'verbose', value: true, type: 'added' }];
+    const expected = new Error('No such formatter: \'unsupported format name\'');
+    expect(() => (format(diff, 'unsupported format name'))).toThrow(expected);
   });
   test('Check unsupported data format', () => {
     const filePath = getFixturePath('unsupported-format.txt');
-    const expected = new Error('Unsupported data format');
+    const expected = new Error('Unsupported data format: \'txt\'');
     expect(() => genDiff(filePath, filePath)).toThrow(expected);
   });
   test('Check invalid data', () => {
     const filePath = getFixturePath('invalid-data.json');
     expect(() => genDiff(filePath, filePath)).toThrow(SyntaxError);
+  });
+  test('Check unknown node type', () => {
+    const diff = [{ key: 'verbose', value: true, type: 'unknown type' }];
+    const expected = new Error('Unknown node type: \'unknown type\'');
+    expect(() => stylish(diff)).toThrow(expected);
+    expect(() => plain(diff)).toThrow(expected);
   });
 });
