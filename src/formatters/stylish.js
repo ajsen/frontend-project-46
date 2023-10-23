@@ -28,6 +28,9 @@ export default (diff) => {
       if (node.type === 'added') {
         return `${setIndentation(depth + 1, spaceCount, offsetCount)}+ ${node.key}: ${stringify(node.value, depth + 1)}`;
       }
+      if (node.type === 'nested') {
+        return `${setIndentation(depth + 1, spaceCount)}${node.key}: ${iter(node.children, depth + 1)}`;
+      }
       if (node.type === 'changed') {
         const line1 = `${setIndentation(depth + 1, spaceCount, offsetCount)}- ${node.key}: ${stringify(node.value1, depth + 1)}`;
         const line2 = `${setIndentation(depth + 1, spaceCount, offsetCount)}+ ${node.key}: ${stringify(node.value2, depth + 1)}`;
@@ -37,7 +40,7 @@ export default (diff) => {
         return `${setIndentation(depth + 1, spaceCount)}${node.key}: ${stringify(node.value, depth)}`;
       }
 
-      return `${setIndentation(depth + 1, spaceCount)}${node.key}: ${iter(node.children, depth + 1)}`;
+      throw new Error(`Unknown node type: '${node.type}'`);
     });
 
     return `{\n${result.join(separator)}\n${setIndentation(depth, spaceCount)}}`;

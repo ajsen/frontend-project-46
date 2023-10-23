@@ -24,11 +24,14 @@ export default (diff) => {
         if (node.type === 'added') {
           return `Property '${currentPath}' was added with value: ${stringify(node.value)}`;
         }
+        if (node.type === 'nested') {
+          return iter(node.children, currentPath);
+        }
         if (node.type === 'changed') {
           return `Property '${currentPath}' was updated. From ${stringify(node.value1)} to ${stringify(node.value2)}`;
         }
 
-        return iter(node.children, currentPath);
+        throw new Error(`Unknown node type: '${node.type}'`);
       });
 
     return result.join(separator);
