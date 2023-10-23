@@ -11,6 +11,6 @@ export default (diff, formatName) => {
     case 'json':
       return formatJSON(diff);
     default:
-      throw new Error('No such formatter');
+      throw new Error(`No such formatter: '${formatName}'`);
   }
 };
