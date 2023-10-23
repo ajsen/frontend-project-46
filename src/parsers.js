@@ -9,6 +9,6 @@ export default (data, dataFormat) => {
     case 'yml':
       return yaml.load(data);
     default:
-      throw new Error('Unsupported data format');
+      throw new Error(`Unsupported data format: '${dataFormat}'`);
   }
 };
